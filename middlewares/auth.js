@@ -1,21 +1,18 @@
 const jwt = require('jsonwebtoken');
 
-const Auth = (req, res, next) => {
+const Auth = (role) => (req, res, next) => {
     try {
-        console.log("ROLE", req.path);
-        
         const token = req.header('Authorization').slice(7);
         const decode = jwt.verify(token, 'schoole-web-token');
+        console.log("ROLE", role, decode.role);
 
-        if (!decode) {
+        if (decode.role !== role) {
             return res.status(401).json({ status: false, message: 'Authentication required.' });
         }
 
         next();
 
-    } catch (err) { 
-        return res.status(401).json({ status: false, message: 'Authentication required.' }) 
-    };
+    } catch (err) { return res.status(401).json({ status: false, message: 'Authentication required.' }) };
 }
 
 module.exports = Auth 

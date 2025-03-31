@@ -1,9 +1,11 @@
 const express = require('express');
-const authRoutes = require('./authRoutes');
-const adminRoutes = require('./adminRoutes');
+const authRoutes = require('./subRoutes/authRoutes');
+const adminRoutes = require('./subRoutes/adminRoutes');
+const teacherRoutes = require('./subRoutes/teacherRoutes');
 const routes = express();
 
 routes.use('/auth', authRoutes);
 routes.use('/admin', adminRoutes);
+routes.use('/teacher', teacherRoutes);
 
 module.exports = routes;
