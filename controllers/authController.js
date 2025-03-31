@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const UserModel = require('../models/userModel');
+const UserModel = require('../models/authModel');
 const jwt = require('jsonwebtoken');
 
 const Register = async (req, res) => {
@@ -26,13 +26,6 @@ const Register = async (req, res) => {
 
 }
 
-const GetUsers = async (req, res) => {
-    try {
-        const users = await UserModel.find();
-        return res.status(200).json({ status: true, users });
-    } catch (err) { return res.status(500).json({ status: false, msg: "Server error." }) };
-}
-
 const LogIn = async (req, res) => {
     const { email, password } = req.body;
 
@@ -52,4 +45,4 @@ const LogIn = async (req, res) => {
     } catch (err) { return res.status(500).json({ status: false, msg: "Server error." }) };
 }
 
-module.exports = { Register, GetUsers, LogIn }
+module.exports = { Register, LogIn }
