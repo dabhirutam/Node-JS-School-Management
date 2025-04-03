@@ -1,11 +1,15 @@
 const jwt = require('jsonwebtoken');
+const authModel = require('../models/authModel');
 
-const Auth = (roles) => (req, res, next) => {
+const Auth = (roles) => async (req, res, next) => {
     try {
         const token = req.header('Authorization').slice(7);
         const decode = jwt.verify(token, 'schoole-web-token');
 
-        roles.includes(decode.role) ? next() : res.status(401).json({ status: false, message: 'Authentication required.' });
+        if (roles.includes(decode.role)) {
+            req.user = await authModel.findById(decode._id);
+            next()
+        } else res.status(401).json({ status: false, message: 'Authentication required.' });
 
     } catch (err) { return res.status(401).json({ status: false, message: 'Authentication required.' }) };
 }
