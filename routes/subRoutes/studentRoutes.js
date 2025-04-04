@@ -3,6 +3,12 @@ const studentRoutes = express.Router();
 const studentController = require('../../controllers/studentController');
 const Auth = require('../../middlewares/auth');
 
-studentRoutes.get('/dashboard', Auth(['admin','teacher','student']), studentController.Dashboard);
+studentRoutes.use(Auth(['admin','teacher','student']));
+
+// Dashboard Route
+studentRoutes.get('/dashboard', studentController.Dashboard);
+
+// Profile Route
+studentRoutes.put('/profile', studentController.Profile);
 
 module.exports = studentRoutes;

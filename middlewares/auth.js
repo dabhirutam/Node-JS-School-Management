@@ -8,7 +8,8 @@ const Auth = (roles) => async (req, res, next) => {
 
         if (roles.includes(decode.role)) {
             req.user = await authModel.findById(decode._id);
-            next()
+            if (!req.user) return res.status(401).json({ status: false, message: 'Authentication required.' });
+            next();
         } else res.status(401).json({ status: false, message: 'Authentication required.' });
 
     } catch (err) { return res.status(401).json({ status: false, message: 'Authentication required.' }) };

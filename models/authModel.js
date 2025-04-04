@@ -16,6 +16,7 @@ const authSchema = new mongoose.Schema({
     school: { type: String },
     class: { type: Number },
     section: { type: String },
+    teacherID: { type: mongoose.Schema.ObjectId, ref: 'users' },
 }, { timestamps: true });
 
 const authModel = mongoose.model('users', authSchema);
